@@ -330,13 +330,31 @@ resource "aws_security_group_rule" "nlb_egress" {
 }
 ```
 
-The PrivateLink endpoint is created at the VPC level, and then is supported by a Network Load Balancer (NLB). The NLB is created with a security group that has an ID which we'll need later. In the meantime, the NLB has associated Listeners - they listen on specific ports and take action, like forwarding TCP traffic to a Target Group. In this case, we construct the Target Groups for each database endpoint a user wants to expose by performing a DNS lookup, and then creating a Target Group Attachment for each of the resolved IPs for the Target Group that we're creating for the given database.
+The PrivateLink endpoint is created at the VPC level, and then is supported by
+a Network Load Balancer (NLB). The NLB is created with a security group that
+has an ID which we'll need later. In the meantime, the NLB has associated
+Listeners - they listen on specific ports and take action, like forwarding TCP
+traffic to a Target Group. In this case, we construct the Target Groups for
+each database endpoint a user wants to expose by performing a DNS lookup, and
+then creating a Target Group Attachment for each of the resolved IPs for the
+Target Group that we're creating for the given database.
 
-The final thing on our end is to ensure that the security group rules for the database endpoint are configured to allow traffic from the NLB - which we can do by adding the security group id to any existing rules.
+So request comes into the PrivateLink endpoint on a specific port, the listener
+on the NLB forwrads the traffic to the appropriate Target Group whose
+attachments are the correct IPs of the database
+
+The final thing on our end is to ensure that the security group rules for the
+database endpoint are configured to allow traffic from the NLB - which we can
+do by adding the security group id to any existing rules. We can do this in the
+console or if the desired target endpoint is created with a terrform module we
+can update the terraform module and even hard code the security group id of the
+NLBa
 
 # FIN
 
-With that we now have a working PrivateLink endpoint that we can use to expose any number of databases to Databricks Serverless without being hamstrung by the limitations of 3 endpoints per NCC and 1 NCC per workspace!
+With that we now have a working PrivateLink endpoint that we can use to expose
+any number of databases to Databricks Serverless without being hamstrung by the
+limitations of 3 endpoints per NCC and 1 NCC per workspace!
 
 # Nuggets
 
