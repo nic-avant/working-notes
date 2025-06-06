@@ -27,14 +27,14 @@ jobs:
       - name: Set up Python 3.10
         uses: actions/setup-python@v1
         with:
-          python-version: '3.10'
+          python-version: "3.10"
 
-      - name: install hatch
-        run: pip install hatch
+      - name: install uv
+        run: pip install uv
 
       - name: build with markata
         run: hatch run build
-        
+
       - name: GitHub Pages
         uses: crazy-max/ghaction-github-pages@v3.0.0
         with:
