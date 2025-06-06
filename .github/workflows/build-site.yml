@@ -33,7 +33,7 @@ jobs:
         run: pip install uv
 
       - name: build with markata
-        run: hatch run build
+        run: uvx markata build
 
       - name: GitHub Pages
         uses: crazy-max/ghaction-github-pages@v3.0.0
